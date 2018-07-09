@@ -1,0 +1,78 @@
+<html>
+<head>
+<div id ="response"></div>
+<script>
+
+var incidentsTable = [];
+		function pullData(){
+			//xHTTP request
+			var request=new XMLHttpRequest();
+			// full incident table
+			request.open("get","https://dev47165.service-now.com/api/now/table/incident");
+			//we want a json file
+			request.setRequestHeader('Accept','application/json');
+			request.setRequestHeader('Content-Type','application/json');
+			//login info
+			request.setRequestHeader('Authorization', 'Basic '+btoa('admin'+':'+'Admin1234'));
+			//on recieve
+			request.onreadystatechange = function() { 
+				if(this.readyState = this.DONE) {
+					console.log(this);
+					try{
+						//send 3 peices of data last one is what succesfully converts to json
+						incidentsTable = JSON.parse(this.response)['result'];
+						//do whatever with the data
+						displayAll();
+					}catch(e){
+					}
+				}
+			}; 
+			//send request
+			request.send('');
+	}
+	function displayAll(){
+		console.log("__________________RAW DATA__________________RAW DATA__________________RAW DATA__________________")
+		for (var i=0; i < incidentsTable.length; i++){
+		//display raw data
+		console.log(incidentsTable[i]);
+		/*
+			Create clicable incidents with href
+			*/
+		var link = document.createElement('a');
+		//adding password info to url so one click access
+		var url = incidentsTable[i]['opened_by']['link'].split("//");
+		var avoidLoginURL = url[0]+"//admin:Admin1234@"+url[1];
+		//url from incident opened_by object
+		link.setAttribute('href',avoidLoginURL); 
+		//open url in new tab
+		link.setAttribute('target','_blank');
+		//add incident number to link
+		link.innerHTML = incidentsTable[i]['number']
+		//styling
+		var incident = document.createElement('h2');
+		//indcident number
+		incident.innerHTML = "INCIDENT ~ ";
+		//add header styling to link
+		incident.appendChild(link);
+		//add to document body
+		document.getElementById('contentHolder').appendChild(incident);
+	}
+	console.log("__________________END DATA__________________END DATA__________________END DATA__________________")
+}
+</script>
+
+
+</head>
+
+
+<body onload="pullData()">
+<h1><a href="index.html" download>DOWNLOAD HTML + JS<a></h1>
+	<h1>INCIDENTS</h1>
+	<div id="contentHolder">
+
+	</div>
+</body>
+</html>
+
+
+
