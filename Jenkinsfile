@@ -3,7 +3,7 @@ pipeline {
     stages {
         stage('Build') {
             steps {
-                sh 'python3 ../Flaskapp/app.py'
+                sh 'python ../Flaskapp/app.py'
             }
         
             post {
