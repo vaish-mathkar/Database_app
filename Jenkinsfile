@@ -1,9 +1,9 @@
 pipeline {
-    agent { label 'docker' }
+    agent all
     stages {
         stage('Build') {
             steps {
-                sh 'python -m py_compile Flaskapp/app.py'
+                sh 'sh app.sh'
             }
         
             post {
