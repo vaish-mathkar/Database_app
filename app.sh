@@ -1,2 +1,2 @@
 #!/bin/sh
-python Flaskapp/app.py
+python app.py
