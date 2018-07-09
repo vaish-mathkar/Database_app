@@ -1,10 +1,10 @@
 #!/usr/bin/env python
 from flask import Flask,render_template,request
+
 import json
 app= Flask(__name__)
 
 
- 
 @app.route("/")
 def main():
     return render_template('index.html')
@@ -23,14 +23,17 @@ def signUp():
         return json.dumps({'html':'<span> All fields good !!</span>'})
     else:
         return json.dumps({'html':'<span> Enter the required field</span>'})
-    
+
+@app.route('/incidentManagement')
+def incidentManagement():
+    return render_template('incidentManagement.html')
 
 
-
-
-
+@app.route('/incidents')
+def incidents():
+    return render_template('incidents.html')
 
 if __name__=="__main__":
-    app.run(host='0.0.0.0', debug=True, port=8090)
+    app.run(host='0.0.0.0', debug=True, port=5000)
 
 
